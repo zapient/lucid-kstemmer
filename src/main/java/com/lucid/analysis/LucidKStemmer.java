@@ -1366,6 +1366,9 @@ public class LucidKStemmer {
     return word.toString();
   }
 
+  /**
+   * @lucene.internal Returns the stem, or null if the stem is in the char[] returned by getChars()/getLength()
+   */
   String getString() {
     return result;
   }

@@ -44,8 +44,15 @@ public class LucidKStemFilter extends TokenFilter {
     char[] term = termAttribute.buffer();
     int len = termAttribute.length();
     if ((!keywordAtt.isKeyword()) && stemmer.stem(term, len)) {
-      char[] chars = stemmer.asString().toCharArray();
-      termAttribute.copyBuffer(chars, 0, chars.length);
+      String result = stemmer.getString();
+      if (result != null) {
+        int stemLen = result.length();
+        termAttribute.resizeBuffer(stemLen);
+        termAttribute.setLength(stemLen);
+        result.getChars(0, stemLen, termAttribute.buffer(), 0);
+      } else {
+        termAttribute.copyBuffer(stemmer.getChars(), 0, stemmer.getLength());
+      }
     }
 
     return true;
